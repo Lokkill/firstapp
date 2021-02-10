@@ -11,6 +11,7 @@ import java.io.IOException;
 public class MainServlet implements Servlet {
     private static Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private transient ServletConfig servletConfig;
+    private final String path = getServletConfig().getServletContext().getContextPath();
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -25,6 +26,15 @@ public class MainServlet implements Servlet {
     @Override
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         logger.info("New request");
+
+        servletResponse.getWriter().printf("<h1>This is a %s </h1>", getServletInfo());
+        servletResponse.getWriter().printf("<ul>" +
+                "<li ref='"+ path +"/main'>Главная страница</li>" +
+                "<li ref='"+ path +"/catalog'>Каталог товаров</li>" +
+                "<li ref='"+ path +"/product'>Товар</li>" +
+                "<li ref='"+ path +"/card'>Корзина</li>" +
+                "<li ref='"+ path +"/order'>Оформить заказ</li>" +
+                "</ul");
     }
 
     @Override

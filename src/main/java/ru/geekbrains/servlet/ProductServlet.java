@@ -14,10 +14,20 @@ import java.io.IOException;
 public class ProductServlet extends HttpServlet {
 
     private static Logger logger = LoggerFactory.getLogger(ProductServlet.class);
+    private final String path = getServletContext().getContextPath();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("New {} request", this.getServletName());
+        resp.getWriter().printf("<h1>This is a %s </h1>", getServletInfo());
+
+        resp.getWriter().printf("<ul>" +
+                "<li ref='"+ path +"/main'>Главная страница</li>" +
+                "<li ref='"+ path +"/catalog'>Каталог товаров</li>" +
+                "<li ref='"+ path +"/product'>Товар</li>" +
+                "<li ref='"+ path +"/card'>Корзина</li>" +
+                "<li ref='"+ path +"/order'>Оформить заказ</li>" +
+                "</ul");
     }
 
     @Override
