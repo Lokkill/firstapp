@@ -1,10 +1,10 @@
 package ru.geekbrains.servlet.filters;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/*")
+@WebFilter(urlPatterns = "/*")
 public class EncodingFilter implements Filter {
 
     private FilterConfig config;
