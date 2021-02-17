@@ -14,24 +14,28 @@ import java.io.IOException;
 public class CartServlet extends HttpServlet {
 
     private static Logger logger = LoggerFactory.getLogger(CartServlet.class);
-    private final String path = getServletContext().getContextPath();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("New {} request", this.getServletName());
         resp.getWriter().printf("<h1>This is a %s </h1>", getServletInfo());
 
-        resp.getWriter().printf("<ul>" +
-                "<li ref='"+ path +"/main'>Главная страница</li>" +
-                "<li ref='"+ path +"/catalog'>Каталог товаров</li>" +
-                "<li ref='"+ path +"/product'>Товар</li>" +
-                "<li ref='"+ path +"/card'>Корзина</li>" +
-                "<li ref='"+ path +"/order'>Оформить заказ</li>" +
-                "</ul");
+        resp.getWriter().println("<ul>");
+        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/main'>Главная страница</a></li>");
+        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/catalog'>Каталог товаров</a></li>");
+        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/product'>Товар</a></li>");
+        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/cart'>Корзина</a></li>");
+        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/order'>Оформить заказ</a></li>");
+        resp.getWriter().println("</ul>");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "CartServlet";
     }
 }
