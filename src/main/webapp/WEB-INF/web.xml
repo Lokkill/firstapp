@@ -5,4 +5,23 @@
          version="4.0">
 
   <display-name>Archetype Created Web Application</display-name>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.html</url-pattern>
+    <url-pattern>*.css</url-pattern>
+    <url-pattern>*.js</url-pattern>
+    <url-pattern>*.jpg</url-pattern>
+  </servlet-mapping>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error_404</location>
+  </error-page>
+
+  <error-page>
+    <error-code>403</error-code>
+    <location>/error_403</location>
+  </error-page>
+
 </web-app>
