@@ -19,14 +19,7 @@ public class CatalogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("New {} request", this.getServletName());
-        resp.getWriter().printf("<h1>This is a %s </h1>", getServletInfo());
-        resp.getWriter().println("<ul>");
-        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/main'>Главная страница</a></li>");
-        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/catalog'>Каталог товаров</a></li>");
-        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/product'>Товар</a></li>");
-        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/cart'>Корзина</a></li>");
-        resp.getWriter().println("<li> <a href='" + getServletContext().getContextPath() + "/order'>Оформить заказ</a></li>");
-        resp.getWriter().println("</ul>");
+
     }
 
     @Override
