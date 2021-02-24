@@ -8,10 +8,17 @@ public class Product {
     private String description;
     private BigDecimal price;
 
+    public Product() {
+    }
+
     public Product(String name, String description, BigDecimal price) {
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Product(Product product){
+        this(product.name, product.description, product.price);
     }
 
     public void setId(Long id) {

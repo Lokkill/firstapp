@@ -1,11 +1,16 @@
 package ru.geekbrains.servlet.data.category;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Named
+@ApplicationScoped
 public class CategoryData {
     private static Map<Long, Category> categories = new ConcurrentHashMap<>();
 
@@ -29,5 +34,11 @@ public class CategoryData {
 
     public void deleteById(Long id){
         categories.remove(id);
+    }
+
+    @PostConstruct
+    public void init(){
+        this.saveOrUpdate(new Category("Iphone"));
+        this.saveOrUpdate(new Category("Samsung"));
     }
 }
