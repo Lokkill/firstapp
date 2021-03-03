@@ -9,6 +9,8 @@ public class Category {
     private String title;
     private ArrayList<Product> products;
 
+    public Category(){}
+
     public Category(String title) {
         this.title = title;
         this.products = new ArrayList<>();

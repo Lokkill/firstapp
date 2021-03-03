@@ -1,6 +1,5 @@
 package ru.geekbrains.servlet.listener;
 
-import ru.geekbrains.servlet.data.category.Category;
 import ru.geekbrains.servlet.data.category.CategoryData;
 import ru.geekbrains.servlet.data.product.Product;
 import ru.geekbrains.servlet.data.product.ProductData;
@@ -31,7 +30,7 @@ public class BootstrapListener implements ServletContextListener {
         sce.getServletContext().setAttribute("userData", users);
 
         CategoryData categoryData = new CategoryData();
-        categoryData.saveOrUpdate(new Category("IPhone's"));
+        categoryData.saveOrUpdate(new ru.geekbrains.servlet.data.category.Category("IPhone's"));
         sce.getServletContext().setAttribute("categoryData", categoryData);
     }
 }
