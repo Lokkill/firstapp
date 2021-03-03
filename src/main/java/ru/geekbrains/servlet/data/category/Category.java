@@ -2,16 +2,31 @@ package ru.geekbrains.servlet.data.category;
 
 import ru.geekbrains.servlet.data.product.Product;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Category {
+@Entity
+@Table(name = "category")
+@NamedQueries({
+        @NamedQuery(name = "findAllCategory", query = "from Category"),
+        @NamedQuery(name = "countAllCategory", query = "select count(*) from Category"),
+        @NamedQuery(name = "deleteByIdCategory", query = "delete from Category category where category.id = :id")
+})
+public class Category implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "title")
     private String title;
-    private ArrayList<Product> products;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Product> products;
 
     public Category(){}
 
-    public Category(String title) {
+    public Category(Long id, String title) {
+        this.id = id;
         this.title = title;
         this.products = new ArrayList<>();
     }
@@ -33,7 +48,7 @@ public class Category {
     }
 
     public ArrayList<Product> getProducts() {
-        return products;
+        return new ArrayList<>(products);
     }
 
     public void setProducts(ArrayList<Product> products) {

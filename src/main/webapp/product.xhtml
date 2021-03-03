@@ -17,6 +17,8 @@
 
 <h:body>
 
+    <f:event listener="#{productController.loadData}" type="preRenderView"/>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">EShop</a>
 
@@ -56,6 +58,10 @@
                         <h:column>
                             <f:facet name="header">Discription</f:facet>
                             #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Category</f:facet>
+                            #{product.category.title}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Price</f:facet>
