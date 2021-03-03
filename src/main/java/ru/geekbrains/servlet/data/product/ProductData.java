@@ -1,49 +1,62 @@
 package ru.geekbrains.servlet.data.product;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
 public class ProductData {
-    private static Map<Long, Product> productMap = new ConcurrentHashMap<>();
 
-    private AtomicLong atomicLong = new AtomicLong(0);
+    @PersistenceContext(unitName = "ds")
+    private EntityManager manager;
 
-    public List<Product> findAll(){
-        return new ArrayList<>(productMap.values());
-    }
-
-    public Product findById(Long id){
-        return productMap.get(id);
-    }
-
-    public void saveOrUpdate(Product product){
-        if (product.getId() == null){
-            Long id = atomicLong.incrementAndGet();
-            product.setId(id);
-        }
-        productMap.put(product.getId(), product);
-    }
-
-    public void deleteById(Long id){
-        productMap.remove(id);
-    }
+    @Resource
+    private UserTransaction transaction;
 
     @PostConstruct
-    public void init() {
-        this.saveOrUpdate(new Product("Iphone 7",
-                "Old and not sensational",
-                new BigDecimal(20000)));
-        this.saveOrUpdate(new Product("Iphone 12",
-                "New and sensational",
-                new BigDecimal(120000)));
+    public void init() throws Exception {
+        if (countAll() == 0) {
+            try {
+                transaction.begin();
+                saveOrUpdate(new Product(null, "Iphone 7", "This is Iphone 7", new BigDecimal(25000)));
+                saveOrUpdate(new Product(null, "Iphone 12", "This is Iphone 12", new BigDecimal(120000)));
+            } catch (Exception e) {
+                transaction.rollback();
+            }
+        }
     }
+
+    public Long countAll() {
+        return manager.createNamedQuery("countAllProduct", Long.class).getSingleResult();
+    }
+
+    public List<Product> findAll() {
+        return manager.createNamedQuery("findAllProduct", Product.class).getResultList();
+    }
+
+    public Product findById(Long id) {
+        return manager.find(Product.class, id);
+    }
+
+    @Transactional
+    public void saveOrUpdate(Product product) {
+        if (product.getId() == null) {
+            manager.persist(product);
+        }
+        manager.merge(product);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        manager.createNamedQuery("deleteByIdProduct", Product.class).setParameter("id", id).executeUpdate();
+    }
+
 }

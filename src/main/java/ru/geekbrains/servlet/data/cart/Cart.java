@@ -24,7 +24,7 @@ public class Cart implements Serializable {
     }
 
     public void addToCart(Product product) {
-        productCart = new Product(product);
+        productCart = product.copy(product);
         Long id = atomicLong.incrementAndGet();
         productCart.setId(id);
         productMap.put(id, productCart);
